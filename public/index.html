@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFlow Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css"> 
+    <script type="text/javascript" src="script.js" defer></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <header id="header-topo" class="flex items-center gap-4 mb-6 px-6 py-3 bg-[#003366] border-b-4 border-yellow-400 shadow-md">
+  <!-- LOGO -->
+  <img 
+    src="imagens/eduflow.png" 
+    alt="Logo EduFlow Manager" 
+    class="object-contain" 
+    style="height: 120px; width: auto;"
+  />
+
+  <!-- TEXTO -->
+  <div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-yellow-400  items-center gap-2">
+      EduFlow <span class="text-white">Manager</span>
+    </h1>
+    <p class="text-sm mt-1 opacity-90 text-white">
+      Gestão Inteligente de Recursos Escolares
+    </p>    
+  </div>
+</header>
+
+
+
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mt-6">
+            <div class="mb-6 p-3 bg-indigo-50 rounded-xl shadow-inner flex flex-wrap gap-x-6 gap-y-2" id="recurso-selector">
+                <p class="text-sm text-gray-500">Carregando recursos...</p>
+            </div>
+        </div>
+
+        <div id="calendario-layout" class="flex flex-col lg:flex-row">
+
+            <div id="calendario-grid-container" class="lg:w-1/2 p-4 bg-white rounded-xl shadow-lg border border-gray-100">
+                <div class="flex justify-between items-center mb-4">
+                    <button id="btn-anterior" class="p-2 rounded-full hover:bg-gray-100 transition">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <h2 id="mes-ano-atual" class="text-2xl font-bold text-gray-700">Mês de Ano</h2>
+                    <button id="btn-proximo" class="p-2 rounded-full hover:bg-gray-100 transition">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+
+                <div id="dias-da-semana" class="grid grid-cols-7 gap-1 text-center font-medium text-sm text-gray-500 mb-2">
+                    <div>Dom</div>
+                    <div>Seg</div>
+                    <div>Ter</div>
+                    <div>Qua</div>
+                    <div>Qui</div>
+                    <div>Sex</div>
+                    <div>Sáb</div>
+                </div>
+
+                <div id="dias-do-mes" class="grid grid-cols-7 gap-1"></div>
+            </div>
+
+            <div id="detalhe-container" class="lg:w-1/2 p-4 bg-white rounded-xl shadow-lg border border-gray-100 mt-6 lg:mt-0 hidden">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                    Horários para <span id="dia-detalhe" class="text-indigo-600">--</span>
+                </h3>
+                <div id="horarios-lista" class="space-y-2">
+                    <p class="text-gray-500 text-center py-4">Selecione uma data no calendário para ver os horários disponíveis.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-reserva" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-300 scale-100">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-2xl font-bold text-indigo-700">
+                    Agendar Recurso: <span id="modal-recurso-nome"></span>
+                </h3>
+                <button onclick="document.getElementById('modal-reserva').style.display='none'" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <p class="text-sm text-gray-600 mb-4">
+                Dia: <span id="modal-data" class="font-semibold text-gray-800"></span> - Horário: <span id="modal-horario" class="font-semibold text-gray-800"></span>
+            </p>
+
+            <form id="form-agendamento">
+                <div class="mb-4">
+                    <label for="professor-nome" class="block text-sm font-medium text-gray-700 mb-1">Nome do Professor/Responsável</label>
+                    <input type="text" id="professor-nome" name="professor-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition">
+                </div>
+                <div class="mb-6">
+                    <label for="turma-nome" class="block text-sm font-medium text-gray-700 mb-1">Turma/Disciplina</label>
+                    <input type="text" id="turma-nome" name="turma-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="document.getElementById('modal-reserva').style.display='none'" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition shadow-md shadow-indigo-200">Confirmar Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

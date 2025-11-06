@@ -1,0 +1,14 @@
+{
+  "name": "EduFlow Manager",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "pg": "^8.10.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
